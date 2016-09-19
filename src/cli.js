@@ -58,12 +58,8 @@ var app = {
 					if (script.usage !== '') {
 						console.log('\tUsage          ' + script.usage);
 					}
-					
-					// Space between content and next prompt looks better
-					console.log('');
-					
-					if (script.help) {
-						console.log(script.help + '\n');
+					if (script.help !== '') {
+						console.log('\n' + script.help);
 					}
 				}
 				
@@ -74,9 +70,6 @@ var app = {
 				for(; i < keys.length; ++i) {
 					console.log('\t' + postpad(' ', keys[i], 12) + app[alias[keys[i]]].description);
 				}
-				
-				// Space between content and next prompt looks better
-				console.log('');
 			}
 		},
 	},
@@ -98,7 +91,7 @@ var rebuild = function() {
 }
 
 module.exports = {
-	register: function(cmd, description, opts, func) {
+	script: function(cmd, description, opts, func) {
 		app[cmd.toLowerCase()] = {
 			func:         func,
 			description:  description,
@@ -128,6 +121,7 @@ module.exports = {
 			}
 			
 			script.func(args);
+			console.log(''); // Space between content and next prompt looks better
 			cli.prompt();
 		});
 	},
