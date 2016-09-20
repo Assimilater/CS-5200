@@ -28,5 +28,15 @@ cli.script('port', 'Gets or sets the port to connect to on the remote server', {
 	console.log('server port: ' + conf.get('port'));
 });
 
+cli.script('new', 'Exits the current game and starts a new one', {}, function(args) {
+	console.log('Connection to game server...');
+	// Create encode and send mesage to server 'NewGame'
+	// Parse GameDef message
+});
+
+cli.closer(function() {
+	
+});
+
 console.log('Welcome to the Word Guessing Game!\n');
 cli.run();

@@ -1,5 +1,6 @@
 var alias = {};
 var keys = [];
+var exit_handler;
 
 var postpad = function(fill, str, len) {
 	return (str + Array(len + 1).join(fill)).substring(0, len);
@@ -27,6 +28,9 @@ var app = {
 		help: '',
 		alias: ['close', 'quit', 'stop'],
 		func: function(args) {
+			if (exit_handler instanceof Function) {
+				exit_handler();
+			}
 			ps.exit();
 		}
 	},
@@ -124,5 +128,9 @@ module.exports = {
 			console.log(''); // Space between content and next prompt looks better
 			cli.prompt();
 		});
+	},
+	
+	closer: function(callback) {
+		exit_handler = callback;
 	},
 };
