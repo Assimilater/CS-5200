@@ -7,12 +7,12 @@ module.exports = {
 			switch (data[i].type) {
 				case 'short':
 					chunk = new Buffer(2);
-					buff.writeInt16BE(data.value, 0);
+					chunk.writeInt16BE(data.value, 0);
 					break;
 					
 				case 'byte':
 					chunk = new Buffer(1);
-					buff.writeInt8(data.value, 0);
+					chunk.writeInt8(data.value, 0);
 					break;
 					
 				case 'string':
@@ -24,6 +24,12 @@ module.exports = {
 						chunk[j] = chunk[j + 1];
 						chunk[j + 1] = tmp;
 					}
+					
+					// Prepend with the size of the string as a short
+					var size = new Buffer(2);
+					size.writeInt16BE(chunk.length, 0);
+					chunk = Buffer.concat([size, chunk]);
+					
 					break;
 			}
 			
