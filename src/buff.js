@@ -17,19 +17,18 @@ module.exports = {
 					break;
 					
 				case type.string:
-					chunk = new Buffer(data[i].value, 'utf16le');
+					chunk = new Buffer(2 + (data[i].value.length * 2));
+					chunk.fill(0);
 					
-					// Switch endianness
-					for (j = 0; j < chunk.length; j += 2) {
-						var tmp = chunk[j];
-						chunk[j] = chunk[j + 1];
-						chunk[j + 1] = tmp;
+					// Write the size
+					chunk.writeInt16BE(chunk.length, 0);
+					
+					// Write the string character at a time because uft8 only encodes one byte per character
+					var j = 0;
+					for (; j < data[i].value.length; ++j) {
+						chunk.writeInt16BE(data[i].value.charCodeAt(j), 2 + (j * 2));
 					}
 					
-					// Prepend with the size of the string as a short
-					var size = new Buffer(2);
-					size.writeInt16BE(chunk.length, 0);
-					chunk = Buffer.concat([size, chunk]);
 					break;
 					
 				default:
