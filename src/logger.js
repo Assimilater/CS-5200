@@ -50,11 +50,16 @@ function init(ready, prefix) {
 		
 		// Callback for creating the log file upon determining a valid name
 		var init = function(file) {
-			ready(new (winston.Logger)({
+			// Logger is programmed to be context dependent
+			// This gets screwed up by the namespace paradigm
+			var logger = new (winston.Logger)({
 				transports: [
 					new (winston.transports.File)({ filename: file })
 				],
-			}).log);
+			});
+			ready(function() {
+				logger.log.apply(logger, arguments);
+			});
 		};
 		
 		// Recursively handle async checking for a valid file
