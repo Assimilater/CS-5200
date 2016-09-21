@@ -54,7 +54,7 @@ function init(ready, prefix) {
 				transports: [
 					new winston.transports.File({ filename: file }),
 				],
-			}));
+			}).log);
 		};
 		
 		// Recursively handle async checking for a valid file
