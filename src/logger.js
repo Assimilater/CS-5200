@@ -57,6 +57,7 @@ function init(ready, prefix) {
 					new (winston.transports.File)({ filename: file })
 				],
 			});
+			
 			ready(function() {
 				logger.log.apply(logger, arguments);
 			});
