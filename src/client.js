@@ -8,12 +8,6 @@ const logger = require('./logger.js');
 var $client = new ns();
 logger($client);
 
-//socket.on('listening', function() {
-//	$client('logger', function(log) {
-//		log('verbose', `Listening on ${socket.address}:${socket.port}`);
-//	});
-//});
-
 socket.on('message', function(message, remote) {
 	$client('logger', function(log) {
 		log('info', 'Received UDP message from server', {
@@ -58,19 +52,3 @@ module.exports = function(conf) {
 		},
 	};
 }
-
-/*
-server.on('error', function(err) {
-	console.log(`server error:\n${err.stack}`);
-	server.close();
-});
-
-server.on('message', function(msg, rinfo) {
-	console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
-});
-
-server.on('listening', function() {
-	var address = server.address();
-	console.log(`server listening ${address.address}:${address.port}`);
-});
-*/
