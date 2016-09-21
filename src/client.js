@@ -15,6 +15,7 @@ socket.on('message', function(buff, remote) {
 			remote: remote 
 		});
 	});
+	msg.decode(buff);
 });
 
 module.exports = function(conf) {

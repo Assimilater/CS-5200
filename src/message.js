@@ -205,7 +205,6 @@ module.exports = {
 		}];
 		
 		var format = Messages[Map.MID[mid]].format;
-		console.log(format);
 		
 		// Add each parameter
 		var i = 0;
@@ -215,11 +214,12 @@ module.exports = {
 				value: data[format[i].name],
 			});
 		}
-		console.log(message);
+		
 		return makeBuff(message);
 	},
 	decode: function(data) {
 		var message = new Buffer(data);
+		
 		console.log(message);
 	},
 }
