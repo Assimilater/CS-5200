@@ -14,7 +14,7 @@ function Namespace() {
 		var i = promise.waiting.length - 1;
 		for (; i >= 0; --i) {
 			var index = available.indexOf(promise.waiting[i]);
-			if (index === -1) {
+			if (index !== -1) {
 				promise.waiting.splice(i, 1);
 			}
 		}
@@ -49,6 +49,11 @@ function Namespace() {
 	// The actual namespace function
 	// A list of pluggins is supplied, and the callback is given each plugin as an argument when ready
 	var load = function(plugins, cb) {
+		// Handle case where only one plugin is of interest
+		if (typeof plugins === 'string') {
+			plugins = [plugins];
+		}
+		
 		var promise = {
 			plugins: plugins.slice(),
 			waiting: plugins.slice(),
