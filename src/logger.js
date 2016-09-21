@@ -8,7 +8,6 @@ const ns = require('./namespace.js');
 module.exports = function($ns, prefix) {
 	if (!($ns instanceof ns)) { 
 		console.log('Fatal error: invalid namspace provided to logger');
-		console.log($ns);
 		ps.exit();
 		return;
 	}

@@ -1,7 +1,10 @@
-var path = require('path');
-//------------------------------------------------------------------------------------------------+
-// Basic operational utilities                                                                    |
-//------------------------------------------------------------------------------------------------+
+const ns = require('./namespace.js');
+const logger = require('./logger.js');
+
+// The shared namespace for this computer science class
+var $cs = new ns();
+logger($cs);
+
 var conf = require('./conf.js')({
 	defaults: {
 		server: '127.0.0.1',
@@ -63,7 +66,6 @@ cli.script('name', 'Gets or sets the student name', {
 // Runtime Scripts
 var buff = require('./buff.js');
 cli.script('new', 'Exits the current game and starts a new one', {}, function(args) {
-	console.log('Connection to game server...');
 	var message = buff.encode([
 		{
 			type: buff.type.short,
