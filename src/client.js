@@ -1,17 +1,17 @@
 const dgram = require('dgram');
 const socket = dgram.createSocket('udp4');
-const buff = require('./buff.js');
 
+const msg = require('./message.js');
 const ns = require('./namespace.js');
 const logger = require('./logger.js');
 
 var $client = new ns();
 logger($client);
 
-socket.on('message', function(message, remote) {
+socket.on('message', function(buff, remote) {
 	$client('logger', function(log) {
 		log('info', 'Received UDP message from server', {
-			stream: message,
+			buff: buff,
 			remote: remote 
 		});
 	});
@@ -20,31 +20,19 @@ socket.on('message', function(message, remote) {
 module.exports = function(conf) {
 	return {
 		create: function() {
-			var message = buff.encode([
-				{
-					type: buff.type.short,
-					value: 0x0001,
-				},
-				{
-					type: buff.type.string,
-					value: conf.get('sid'),
-				},
-				{
-					type: buff.type.string,
-					value: conf.get('fname'),
-				},
-				{
-					type: buff.type.string,
-					value: conf.get('lname'),
-				},
-			]);
+			var buff =
+				msg.encode(msg.Message.NewGame, {
+					sid: conf.get('sid'),
+					fname: conf.get('fname'),
+					lname: conf.get('lname'),
+				});
 			
-			socket.send(message, 0, message.length, conf.get('port'), conf.get('server'), function(err, bytes) {
+			socket.send(buff, 0, buff.length, conf.get('port'), conf.get('server'), function(err, bytes) {
 				$client('logger', function(log) {
 					log('info', 'Create Game message sent', {
 						err: err,
 						bytes: bytes,
-						message: message,
+						buff: buff,
 						remote: conf.get('server') + ':' + conf.get('port'),
 					});
 				});
