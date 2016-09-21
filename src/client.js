@@ -14,6 +14,15 @@ logger($client);
 //	});
 //});
 
+socket.on('message', function(message, remote) {
+	$client('logger', function(log) {
+		log('info', 'Received UDP message from server', {
+			message: message,
+			remote: remote 
+		});
+	});
+});
+
 module.exports = function(conf) {
 	return {
 		create: function() {
@@ -38,9 +47,12 @@ module.exports = function(conf) {
 			
 			socket.send(message, 0, message.length, conf.get('port'), conf.get('server'), function(err, bytes) {
 				$client('logger', function(log) {
-					log('info', 'hello logs');//, 'UDP message sent to ' + conf.get('server') + ':' + conf.get('port'));
-					//log('verbose', `Listening on ${socket.address}:${socket.port}`);
-					socket.close();
+					log('info', 'Create Game message sent', {
+						err: err,
+						bytes: bytes,
+						message: message,
+						remote: conf.get('server') + ':' + conf.get('port'),
+					});
 				});
 			});
 		},
