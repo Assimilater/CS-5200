@@ -1,10 +1,3 @@
-const ns = require('./namespace.js');
-const logger = require('./logger.js');
-
-// The shared namespace for this computer science class
-var $cs = new ns();
-logger($cs);
-
 var conf = require('./conf.js')({
 	defaults: {
 		server: '127.0.0.1',
@@ -63,37 +56,18 @@ cli.script('name', 'Gets or sets the student name', {
 	console.log('Name: ' + conf.get('fname') + ' ' + conf.get('lname'));
 });
 
+//------------------------------------------------------------------------------------------------+
+// Netowrk Client Model                                                                           |
+//------------------------------------------------------------------------------------------------+
+const game = require('./client.js')(conf);
+
 // Runtime Scripts
-var buff = require('./buff.js');
 cli.script('new', 'Exits the current game and starts a new one', {}, function(args) {
-	var message = buff.encode([
-		{
-			type: buff.type.short,
-			value: 0x0001,
-		},
-		{
-			type: buff.type.string,
-			value: conf.get('sid'),
-		},
-		{
-			type: buff.type.string,
-			value: conf.get('fname'),
-		},
-		{
-			type: buff.type.string,
-			value: conf.get('lname'),
-		},
-	]);
-	
-	console.log(message);
-	// Create encode and send mesage to server 'NewGame'
-	// Parse GameDef message
+	game.create();
 });
 
 // Network Communication Maintenance
-cli.closer(function() {
-	
-});
+cli.closer(game.close);
 
 // Start the front-end program
 console.log('Welcome to the Word Guessing Game!\n');
