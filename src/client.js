@@ -38,5 +38,22 @@ module.exports = function(conf) {
 				});
 			});
 		},
+		
+		close: function() {
+			var buff = msg.encode(msg.Message.Exit, {});
+			
+			socket.send(buff, 0, buff.length, conf.get('port'), conf.get('server'), function(err, bytes) {
+				$client('logger', function(log) {
+					log('info', 'Create Game message sent', {
+						err: err,
+						bytes: bytes,
+						buff: buff,
+						remote: conf.get('server') + ':' + conf.get('port'),
+					});
+				});
+			});
+			
+			socket.close();
+		}
 	};
 }
