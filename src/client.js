@@ -17,7 +17,7 @@ logger($client);
 socket.on('message', function(message, remote) {
 	$client('logger', function(log) {
 		log('info', 'Received UDP message from server', {
-			message: message,
+			stream: message,
 			remote: remote 
 		});
 	});
