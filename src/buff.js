@@ -20,8 +20,8 @@ module.exports = {
 					chunk = new Buffer(2 + (data[i].value.length * 2));
 					chunk.fill(0);
 					
-					// Write the size
-					chunk.writeInt16BE(chunk.length, 0);
+					// Write the size (-2 because size is included in chunk.length)
+					chunk.writeInt16BE(chunk.length - 2, 0);
 					
 					// Write the string character at a time because uft8 only encodes one byte per character
 					var j = 0;
