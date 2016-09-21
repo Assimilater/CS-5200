@@ -52,7 +52,7 @@ function init(ready, prefix) {
 		var init = function(file) {
 			ready(new (winston.Logger)({
 				transports: [
-					new winston.transports.File({ filename: file }),
+					new (winston.transports.File)({ filename: file })
 				],
 			}).log);
 		};

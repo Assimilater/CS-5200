@@ -38,7 +38,7 @@ module.exports = function(conf) {
 			
 			socket.send(message, 0, message.length, conf.get('port'), conf.get('server'), function(err, bytes) {
 				$client('logger', function(log) {
-					log('info', 'UDP message sent to ' + conf.get('server') + ':' + conf.get('port'));
+					log('info', 'hello logs');//, 'UDP message sent to ' + conf.get('server') + ':' + conf.get('port'));
 					//log('verbose', `Listening on ${socket.address}:${socket.port}`);
 					socket.close();
 				});
