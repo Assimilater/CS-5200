@@ -10,14 +10,35 @@ const logger = require('./logger.js');
 var $client = new ns();
 logger($client);
 
+var msgHandler = function(Message, data) {
+	
+};
+
 socket.on('message', function(buff, remote) {
 	$client('logger', function(log) {
 		log('info', 'Received UDP message from server', {
 			buff: buff,
 			remote: remote 
 		});
+		
+		msg.decodeMessage(buff, function(err, Message, data) {
+			if (err) {
+				log('error', 'Error Parsing UDP message', {
+					buff: buff,
+					type: Message,
+					data: data,
+				});
+				return;
+			}
+			
+			log('info', 'Parsed UDP message', {
+				type: Message,
+				data: data,
+			});
+			
+			msgHandler(Message, data);
+		});
 	});
-	msg.decode(buff);
 });
 
 module.exports = function(conf) {
