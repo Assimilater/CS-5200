@@ -61,15 +61,15 @@ cli.script('name', 'Gets or sets the student name', {
 //------------------------------------------------------------------------------------------------+
 // Netowrk Client Model                                                                           |
 //------------------------------------------------------------------------------------------------+
-const game = require('./client.js')(conf);
+const game = require('./client.js')(conf, cli.insert);
 
 // Runtime Scripts
 cli.script('new', 'Exits the current game and starts a new one', {}, function(args) {
-	game.create();
+	game.start();
 });
 
 // Network Communication Maintenance
-cli.closer(game.close);
+cli.closer(game.stop);
 
 // Start the front-end program
 console.log('Welcome to the Word Guessing Game!\n');

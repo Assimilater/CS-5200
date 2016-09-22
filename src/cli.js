@@ -130,6 +130,13 @@ module.exports = {
 		});
 	},
 
+	insert: function(cb) {
+		cli.pause();
+		cli.clearLine(0);
+		cb();
+		cli.prompt();
+	},
+
 	closer: function(callback) {
 		exit_handler = callback;
 	},
