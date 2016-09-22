@@ -1,3 +1,5 @@
+'use strict';
+
 const dgram = require('dgram');
 const socket = dgram.createSocket('udp4');
 
@@ -22,7 +24,7 @@ module.exports = function(conf) {
 	return {
 		create: function() {
 			var buff =
-				msg.encode(msg.Message.NewGame, {
+				msg.encodeMessage(msg.Message.NewGame, {
 					sid: conf.get('sid'),
 					fname: conf.get('fname'),
 					lname: conf.get('lname'),
@@ -41,7 +43,7 @@ module.exports = function(conf) {
 		},
 		
 		close: function() {
-			var buff = msg.encode(msg.Message.Exit, {});
+			var buff = msg.encodeMessage(msg.Message.Exit, {});
 			
 			socket.send(buff, 0, buff.length, conf.get('port'), conf.get('server'), function(err, bytes) {
 				$client('logger', function(log) {

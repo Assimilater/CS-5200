@@ -1,3 +1,5 @@
+'use strict';
+
 var conf = require('./conf.js')({
 	defaults: {
 		server: '127.0.0.1',

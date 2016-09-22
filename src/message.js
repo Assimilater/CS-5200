@@ -1,8 +1,9 @@
 'use strict';
+
 const type = { 
 	'byte': 0, 
 	'short': 1,
-	'string': 2 
+	'string': 2, 
 };
 
 var Messages = {
@@ -283,7 +284,7 @@ function decodeMessage(raw, cb) {
 	
 	// Parse the buffer
 	var data = {};
-	var err = parseBuff(buff, format, data);
+	var err = parseBuffer(buff, format, data);
 	
 	// Relay the message
 	cb(err, mid, data);
