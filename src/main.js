@@ -61,7 +61,7 @@ cli.script('name', 'Gets or sets the student name', {
 //------------------------------------------------------------------------------------------------+
 // Netowrk Client Model                                                                           |
 //------------------------------------------------------------------------------------------------+
-const game = require('./client.js')(conf, cli.resume);
+var game = require('./client.js')(conf, cli.resume);
 
 // Runtime Scripts
 cli.script('new', 'Exits the current game and starts a new one', {}, function(args) {

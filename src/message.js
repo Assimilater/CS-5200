@@ -1,6 +1,6 @@
 'use strict';
 
-const type = { 
+var type = { 
 	'byte': 0, 
 	'short': 1,
 	'string': 2, 
@@ -200,7 +200,7 @@ function makeBuffer(data) {
 
 // Helper for transforming buffer data into easy to use object
 function parseBuffer(buff, format, data) {
-	const IOR = 'Array Index Out Of Range';
+	var IOR = 'Array Index Out Of Range';
 	var i = 0, ptr = 0;
 	try {
 		for (; i < format.length; ++i) {

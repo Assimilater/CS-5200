@@ -1,9 +1,9 @@
 require('datejs');
-const fs = require('fs');
-const ps = require('process');
-const path = require('path');
-const winston = require('winston');
-const ns = require('./namespace.js');
+var fs = require('fs');
+var ps = require('process');
+var path = require('path');
+var winston = require('winston');
+var ns = require('./namespace.js');
 
 module.exports = function($ns, prefix) {
 	if (!($ns instanceof ns)) { 

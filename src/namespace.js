@@ -1,4 +1,4 @@
-const ps = require('process');
+var ps = require('process');
 
 function Namespace() {
 	if (!(this instanceof Namespace)) { return new Namespace(); }

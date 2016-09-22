@@ -54,7 +54,7 @@ module.exports = function(assert, debugStr) {
 		});
 		
 		test('String Encoding', function() {
-			const asBytes = Buffer('000a00680065006c006c006f', 'hex');
+			var asBytes = Buffer('000a00680065006c006c006f', 'hex');
 			var message;
 			
 			message = [{

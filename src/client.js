@@ -1,11 +1,11 @@
 'use strict';
 
-const dgram = require('dgram');
-const socket = dgram.createSocket('udp4');
+var dgram = require('dgram');
+var socket = dgram.createSocket('udp4');
 
-const msg = require('./message.js');
-const ns = require('./namespace.js');
-const logger = require('./logger.js');
+var msg = require('./message.js');
+var ns = require('./namespace.js');
+var logger = require('./logger.js');
 
 var $client = new ns();
 logger($client);
