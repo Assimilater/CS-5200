@@ -32,14 +32,14 @@ var app = {
 				exit_handler(function(err) {
 					if (!err) {
 						ps.exit();
-					}
-					else {
+					} else {
 						console.log(err);
 					}
 				});
 			} else {
 				ps.exit();
 			}
+			return exit_handler instanceof Function;
 		}
 	},
 	'help': {
@@ -133,12 +133,14 @@ module.exports = {
 			}
 
 			var wait = script.func(args);
-			console.log(''); // Space between content and next prompt looks better
-			if (!wait) { cli.prompt(); }
-			else { cli.pause(); }
+			if (!wait) {
+				module.exports.resume();
+			} else { 
+				cli.pause();
+			}
 		});
 	},
 
-	resume: function() { cli.prompt(); },
+	resume: function() { console.log(''); cli.prompt(); },
 	closer: function(callback) { exit_handler = callback; },
 };
