@@ -42,8 +42,7 @@ var exitGame = function() {
 var print = null;
 var printGame = function() {
 	print(function() {
-		console.log('\n'); // Get off the prompt and add some room while we're at it
-		console.log('Definition: ' + active.definition);
+		console.log('\nDefinition: ' + active.definition);
 		console.log('\t' + active.hint);
 	});
 };
