@@ -29,9 +29,17 @@ var app = {
 		alias: ['close', 'quit', 'stop'],
 		func: function(args) {
 			if (exit_handler instanceof Function) {
-				exit_handler();
+				exit_handler(function(err) {
+					if (!err) {
+						ps.exit();
+					}
+					else {
+						console.log(err);
+					}
+				});
+			} else {
+				ps.exit();
 			}
-			ps.exit();
 		}
 	},
 	'help': {
@@ -124,20 +132,13 @@ module.exports = {
 				args = '';
 			}
 
-			script.func(args);
+			var wait = script.func(args);
 			console.log(''); // Space between content and next prompt looks better
-			cli.prompt();
+			if (!wait) { cli.prompt(); }
+			else { cli.pause(); }
 		});
 	},
 
-	insert: function(cb) {
-		cli.pause();
-		cli.clearLine(0);
-		cb();
-		cli.prompt();
-	},
-
-	closer: function(callback) {
-		exit_handler = callback;
-	},
+	resume: function() { cli.prompt(); },
+	closer: function(callback) { exit_handler = callback; },
 };

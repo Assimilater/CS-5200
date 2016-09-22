@@ -61,11 +61,29 @@ cli.script('name', 'Gets or sets the student name', {
 //------------------------------------------------------------------------------------------------+
 // Netowrk Client Model                                                                           |
 //------------------------------------------------------------------------------------------------+
-const game = require('./client.js')(conf, cli.insert);
+const game = require('./client.js')(conf, cli.resume);
 
 // Runtime Scripts
 cli.script('new', 'Exits the current game and starts a new one', {}, function(args) {
 	game.start();
+	return true; // Wait for the game to be ready
+});
+
+cli.script('hint', 'Requests a hint for the current game', {}, function(args) {
+	game.hint();
+	return true; // Wait for the game to be ready
+});
+
+cli.script('guess', 'Exits the current game and starts a new one', {
+	usage: 'guess @string',
+}, function(args) {
+	var guess = args.split(' ')[0];
+	game.guess(guess);
+	return true; // Wait for the game to be ready
+});
+
+cli.script('status', 'Shows the current state of the game', {}, function(args) {
+	game.status();
 });
 
 // Network Communication Maintenance
