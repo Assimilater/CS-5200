@@ -278,8 +278,8 @@ function decodeMessage(raw, cb) {
 
 	// Get the type of message
 	var mid = buff.readInt16BE(0);
-	buff.slice(2);
-	
+	buff = buff.slice(2);
+
 	var format = Messages[Map.MID[mid]].format;
 
 	// Parse the buffer
