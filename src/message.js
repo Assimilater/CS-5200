@@ -166,35 +166,35 @@ function makeBuffer(data) {
 				chunk = new Buffer(2);
 				chunk.writeInt16BE(data[i].value, 0);
 				break;
-				
+
 			case type.byte:
 				chunk = new Buffer(1);
 				chunk.writeInt8(data[i].value, 0);
 				break;
-				
+
 			case type.string:
 				chunk = new Buffer(2 + (data[i].value.length * 2));
 				chunk.fill(0);
-				
+
 				// Write the size (-2 because size is included in chunk.length)
 				chunk.writeInt16BE(chunk.length - 2, 0);
-				
+
 				// Write the string character at a time because uft8 only encodes one byte per character
 				var j = 0;
 				for (; j < data[i].value.length; ++j) {
 					chunk.writeInt16BE(data[i].value.charCodeAt(j), 2 + (j * 2));
 				}
-				
+
 				break;
-				
+
 			default:
 				console.log(`Unrecognized type: "${data[i].type}"`);
 				return buff;
 		}
-		
+
 		buff = Buffer.concat([buff, chunk]);
 	}
-	
+
 	return buff;
 }
 
@@ -208,39 +208,39 @@ function parseBuffer(buff, format, data) {
 			if (ptr >= buff.length) {
 				return IOR;
 			}
-			
+
 			var param = format[i];
 			switch (param.type) {
 				case type.short:
 					data[param.name] = buff.readInt16BE(ptr);
 					ptr += 2;
 					break;
-					
+
 				case type.byte:
 					data[param.name] = buff.readInt8(ptr);
 					ptr += 1;
 					break;
-					
+
 				case type.string:
 					var len = buff.readInt16BE(ptr);
 					len /= 2; // Each character is two bytes
 					ptr += 2;
-					
+
 					data[param.name] = '';
-					
+
 					var j = 0;
 					for (; j < len; ++j) {
 						// Verify boundary conditions
 						if (ptr >= buff.length) {
 							return IOR;
 						}
-						
+
 						var elem = buff.readInt16BE(ptr);
 						data[param.name] += String.fromCharCode(elem);
 						ptr += 2;
 					}
 					break;
-					
+
 				default:
 					return `Unrecognized type: "${data[i].type}"`;
 			}
@@ -253,13 +253,13 @@ function parseBuffer(buff, format, data) {
 // Converts a message structure into a buffer used by sockets
 function encodeMessage(mid, data) {
 	var format = Messages[Map.MID[mid]].format;
-	
+
 	// Build the message components
 	var message = [{
 		type: type.short,
 		value: mid,
 	}];
-	
+
 	var i = 0;
 	for (; i < format.length; ++i) {
 		message.push({
@@ -267,7 +267,7 @@ function encodeMessage(mid, data) {
 			value: data[format[i].name],
 		});
 	}
-	
+
 	// Build the buffer
 	return makeBuffer(message);
 }
@@ -275,17 +275,17 @@ function encodeMessage(mid, data) {
 // Converts a buffer used by sockets into a message structure
 function decodeMessage(raw, cb) {
 	var buff = new Buffer(raw);
-	
+
 	// Get the type of message
 	var mid = buff.readInt16BE(0);
 	buff.slice(2);
 	
 	var format = Messages[Map.MID[mid]].format;
-	
+
 	// Parse the buffer
 	var data = {};
 	var err = parseBuffer(buff, format, data);
-	
+
 	// Relay the message
 	cb(err, mid, data);
 }
@@ -296,7 +296,7 @@ module.exports = {
 	MStr: function(mid) {
 		return Map.MID[mid];
 	},
-	
+
 	makeBuffer: makeBuffer,   // Needed for testing
 	parseBuffer: parseBuffer, // Needed for testing
 	encodeMessage: encodeMessage,

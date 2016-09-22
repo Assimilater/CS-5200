@@ -4,7 +4,7 @@ var path = require('path');
 module.exports = function(conf) {
 	var file =     (conf && conf.file)     || path.join('.', 'settings.json');
 	var settings = (conf && conf.defaults) || {};
-	
+
 	var proto = {
 		pull: function() {
 			settings = require(file);
@@ -19,7 +19,7 @@ module.exports = function(conf) {
 			settings[key] = val;
 		},
 	};
-	
+
 	// Do an initial load of of the file
 	try {
 		fs.statSync(file);
@@ -27,6 +27,6 @@ module.exports = function(conf) {
 	} catch(e) {
 		proto.push();
 	}
-	
+
 	return proto;
 };

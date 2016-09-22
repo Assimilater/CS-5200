@@ -20,7 +20,7 @@ function init(ready, prefix) {
 	} else {
 		prefix = prefix + '-';
 	}
-	
+
 	// All logs collected in a 'log' folder with a date-stamped name and an iteration number
 	// Related to how many times the application was started today
 	var stamp = Date.today().toString('yyyy-MM-dd');
@@ -47,7 +47,7 @@ function init(ready, prefix) {
 			ps.exit();
 			return;
 		}
-		
+
 		// Callback for creating the log file upon determining a valid name
 		var init = function(file) {
 			// Logger is programmed to be context dependent
@@ -57,12 +57,12 @@ function init(ready, prefix) {
 					new (winston.transports.File)({ filename: file })
 				],
 			});
-			
+
 			ready(function() {
 				logger.log.apply(logger, arguments);
 			});
 		};
-		
+
 		// Recursively handle async checking for a valid file
 		(function next(i) {
 			var file = path.join('log', `${prefix}${stamp}.${i}.log`);

@@ -15,7 +15,7 @@ var cli = require('readline').createInterface({
 		var hits = keys.filter(function(cmd) {
 			return cmd.indexOf(line) === 0;
 		});
-		
+
 		return [hits, line];
 	},
 });
@@ -47,13 +47,13 @@ var app = {
 				if (cmd !== args) {
 					cmd = 'help';
 				}
-				
+
 				if (alias[cmd] === undefined) {
 					console.log('Unrecognized command "' + cmd + '"');
 				} else {
 					// Valid help entry
 					var script = app[alias[cmd]];
-					
+
 					console.log('Manual for command: "' + alias[cmd] + '":');
 					console.log(    '\tDescription    ' + script.description);
 					if (script.alias.length !== 0) {
@@ -66,10 +66,10 @@ var app = {
 						console.log('\n' + script.help);
 					}
 				}
-				
+
 			} else {
 				console.log('List of available commands:');
-				
+
 				var i = 0;
 				for(; i < keys.length; ++i) {
 					console.log('\t' + postpad(' ', keys[i], 12) + app[alias[keys[i]]].description);
@@ -103,12 +103,12 @@ module.exports = {
 			help:         opts.help    || '',
 			alias:        opts.alias   || [],
 		};
-		
+
 		// To handle the edge case the user added
 		// a new command after calling run()
 		rebuild();
 	},
-	
+
 	run: function() {
 		rebuild();
 
@@ -116,20 +116,20 @@ module.exports = {
 		cli.on('line', function(line) {
 			var cmd = line.split(' ')[0].toLowerCase();
 			var args = line.substring(cmd.length + 1).trim();
-			
+
 			var script = app[alias[cmd]];
 			if (script === undefined) {
 				console.log('Unrecognized command: "' + cmd + '"');
 				script = app['help'];
 				args = '';
 			}
-			
+
 			script.func(args);
 			console.log(''); // Space between content and next prompt looks better
 			cli.prompt();
 		});
 	},
-	
+
 	closer: function(callback) {
 		exit_handler = callback;
 	},
