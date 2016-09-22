@@ -188,7 +188,7 @@ function makeBuffer(data) {
 				break;
 
 			default:
-				console.log(`Unrecognized type: "${data[i].type}"`);
+				console.log('Unrecognized type: "' + data[i].type + '"');
 				return buff;
 		}
 
@@ -242,7 +242,7 @@ function parseBuffer(buff, format, data) {
 					break;
 
 				default:
-					return `Unrecognized type: "${data[i].type}"`;
+					return 'Unrecognized type: "' + data[i].type + '"';
 			}
 		}
 	} catch(e) {

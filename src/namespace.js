@@ -70,7 +70,7 @@ function Namespace() {
 	// The plugin registry helper
 	load.addPlugin = function(name) {
 		if (available.indexOf(name) !== -1 || pending.indexOf(name) !== -1) {
-			console.log(`Fatal error: multiply defined plugin "${name}"`);
+			console.log('Fatal error: multiply defined plugin "' + name + '"');
 			ps.exit();
 			return function() {};
 		}

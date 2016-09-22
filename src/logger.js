@@ -65,7 +65,7 @@ function init(ready, prefix) {
 
 		// Recursively handle async checking for a valid file
 		(function next(i) {
-			var file = path.join('log', `${prefix}${stamp}.${i}.log`);
+			var file = path.join('log', '' + prefix + '' + stamp + '.' + i + '.log');
 			fs.stat(file, function(err, stats) {
 				if (err) {
 					if (err.code === 'ENOENT') {
